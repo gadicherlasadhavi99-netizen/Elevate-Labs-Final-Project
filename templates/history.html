@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Summary History</h1>
+    <p>View your previously generated AI summaries.</p>
+
+    <p>
+        <a class="btn btn-primary" href="{{ url_for('home') }}">
+            Create New Summary
+        </a>
+    </p>
+
+    {% if items %}
+        {% for item in items %}
+            <div style="border-bottom: 1px solid #ddd; padding: 20px 0;">
+                <h3>Summary #{{ item['id'] }}</h3>
+
+                <p>
+                    <strong>Word Count:</strong>
+                    {{ item['word_count'] }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ item['created_at'] }}
+                </p>
+
+                <h4>Generated Summary</h4>
+                <p style="white-space: pre-wrap;">{{ item['summary_text'] }}</p>
+
+                {% if item['original_text'] %}
+                    <details>
+                        <summary>View Original Text</summary>
+                        <p style="white-space: pre-wrap;">{{ item['original_text'] }}</p>
+                    </details>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No summaries found yet.</p>
+        <p>Your generated summaries will appear here.</p>
+    {% endif %}
+</div>
+{% endblock %}

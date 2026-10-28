@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h1>My Documents</h1>
+
+    <p>
+        View your saved summaries and download them in PDF format.
+    </p>
+
+    <a class="btn btn-primary" href="{{ url_for('home') }}">
+        Create New Summary
+    </a>
+
+    <hr>
+
+    {% if items %}
+
+        {% for item in items %}
+
+            <div style="padding: 20px 0; border-bottom: 1px solid #ddd;">
+
+                <h2>Document {{ item['id'] }}</h2>
+
+                <p>
+                    <strong>Word Count:</strong>
+                    {{ item['word_count'] }}
+                </p>
+
+                <p>
+                    <strong>Created At:</strong>
+                    {{ item['created_at'] }}
+                </p>
+
+                <h3>Generated Summary</h3>
+
+                <p style="white-space: pre-wrap;">{{ item['summary_text'] }}</p>
+
+                <details>
+                    <summary>View Original Text</summary>
+
+                    <p style="white-space: pre-wrap;">{{ item['original_text'] }}</p>
+                </details>
+
+                <br>
+
+                <a
+                    class="btn btn-primary"
+                    href="{{ url_for('download_pdf', summary_id=item['id']) }}"
+                >
+                    Download PDF
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No saved documents found. Generate a summary first.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

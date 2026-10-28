@@ -1,0 +1,84 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>AI Text Summarizer</h1>
+    <p>Enter your text below to generate a concise summary using AI.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('home') }}">
+        <div class="form-group">
+            <label for="text">Enter Your Text</label>
+            <textarea
+                id="text"
+                name="text"
+                placeholder="Paste or type at least 30 words here..."
+                required
+            >{{ original_text }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Generate Summary
+        </button>
+    </form>
+
+    {% if summary %}
+        <hr style="margin: 30px 0;">
+
+        <h2>Generated Summary</h2>
+
+        <div style="background: #f4f7fb; padding: 20px; border-radius: 8px;">
+            <p style="white-space: pre-wrap;">{{ summary }}</p>
+        </div>
+
+        {% if word_count %}
+            <div style="margin-top: 20px;">
+                <p>
+                    <strong>Original Word Count:</strong>
+                    {{ word_count }}
+                </p>
+
+                {% if readability is not none %}
+                    <p>
+                        <strong>Readability Score:</strong>
+                        {{ readability }}
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div class="card" style="margin-top: 25px;">
+    <h2>Recent Summaries</h2>
+
+    {% if history %}
+        {% for item in history %}
+            <div style="border-bottom: 1px solid #ddd; padding: 15px 0;">
+                <p>
+                    <strong>Words:</strong>
+                    {{ item['words'] }}
+                </p>
+
+                <p>{{ item['summary'] }}</p>
+
+                {% if item['created_at'] %}
+                    <small>{{ item['created_at'] }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Your recent summaries will appear here after you generate them.</p>
+    {% endif %}
+</div>
+{% endblock %}

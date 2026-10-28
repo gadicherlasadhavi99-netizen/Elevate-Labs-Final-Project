@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Summarizer</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #263238;
+        }
+
+        nav {
+            background: #243b55;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 16px;
+        }
+
+        nav .brand {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .auth-container {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .auth-card, .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1, h2 {
+            color: #243b55;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd4df;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: #2878d0;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #1d5fa8;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: #2878d0;
+        }
+
+        .alert {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+
+        .alert-success {
+            background: #d8f3dc;
+            color: #1b4332;
+        }
+
+        .alert-danger, .alert-error {
+            background: #ffe0e0;
+            color: #9b2226;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 15px;
+            }
+
+            .auth-card, .card {
+                padding: 20px;
+            }
+
+            .page-container {
+                margin: 15px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a class="brand" href="{{ url_for('home') }}">AI Text Summarizer</a>
+
+        <div>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('home') }}">Summarizer</a>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('history') }}">History</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="page-container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

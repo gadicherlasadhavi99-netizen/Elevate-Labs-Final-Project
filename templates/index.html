@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Writer & Text Summarizer</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f5ff;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #0000000d;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 220px;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            background: #5b4ce2;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 14px;
+        }
+
+        button:hover {
+            background: #4334bd;
+        }
+
+        .result {
+            background: #f0edff;
+            padding: 16px;
+            border-radius: 8px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .error {
+            color: #a11;
+            background: #fff0f0;
+            padding: 14px;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .history-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            line-height: 1.6;
+        }
+
+        .muted {
+            color: #666;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>✨ AI Writer & Text Summarizer</h1>
+        <p>Turn long text into clear, concise summaries.</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Enter Your Text</h2>
+            <p class="muted">
+                Paste at least 30 words to generate an AI summary.
+            </p>
+
+            <form method="POST">
+                <textarea
+                    name="text"
+                    id="text"
+                    placeholder="Paste your article or paragraph here..."
+                    required
+                >{{ original_text }}</textarea>
+
+                <p class="muted">
+                    Word count: <strong id="liveCount">0</strong>
+                </p>
+
+                <button type="submit">Generate Summary</button>
+            </form>
+        </section>
+
+        {% if summary %}
+        <section class="card">
+            <h2>📝 Summary</h2>
+
+            {% if summary.startswith("Please") or summary.startswith("The summarization") %}
+                <div class="error">{{ summary }}</div>
+            {% else %}
+                <div class="result">{{ summary }}</div>
+
+                <p><strong>Original word count:</strong> {{ word_count }}</p>
+
+                {% if readability is not none %}
+                <p>
+                    <strong>Readability score:</strong> {{ readability }}
+                    <span class="muted">
+                        (Higher scores generally indicate easier reading.)
+                    </span>
+                </p>
+                {% endif %}
+            {% endif %}
+        </section>
+        {% endif %}
+
+        {% if history %}
+        <section class="card">
+            <h2>📚 Recent Summary History</h2>
+
+            {% for item in history %}
+            <div class="history-item">
+                <p>{{ item.summary }}</p>
+                <span class="muted">
+                    Original text: {{ item.words }} words
+                </span>
+            </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        AI Writer & Text Summarizer | Powered by Flask and Transformers
+    </footer>
+
+    <script>
+        const textArea = document.getElementById("text");
+        const liveCount = document.getElementById("liveCount");
+
+        function updateWordCount() {
+            const text = textArea.value.trim();
+            liveCount.textContent = text
+                ? text.split(/\s+/).length
+                : 0;
+        }
+
+        textArea.addEventListener("input", updateWordCount);
+        updateWordCount();
+    </script>
+</body>
+</html>

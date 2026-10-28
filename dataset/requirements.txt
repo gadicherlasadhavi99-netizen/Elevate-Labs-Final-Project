@@ -1,0 +1,8 @@
+flask
+transformers
+torch
+pandas
+nltk
+textstat
+sentencepiece
+accelerate

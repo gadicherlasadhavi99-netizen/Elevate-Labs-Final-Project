@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Settings</h1>
+    <p>Manage your AI Text Summarizer account.</p>
+
+    <h2>Account Settings</h2>
+    <p>Update your personal information from your profile page.</p>
+
+    <a class="btn btn-primary" href="{{ url_for('profile') }}">
+        Manage Profile
+    </a>
+
+    <hr style="margin: 25px 0;">
+
+    <h2>Summary History</h2>
+    <p>View your previously generated summaries.</p>
+
+    <a class="btn btn-primary" href="{{ url_for('history') }}">
+        View History
+    </a>
+
+    <hr style="margin: 25px 0;">
+
+    <h2>Account</h2>
+    <p>Log out of your account securely.</p>
+
+    <a class="btn btn-primary" href="{{ url_for('logout') }}">
+        Logout
+    </a>
+</div>
+{% endblock %}

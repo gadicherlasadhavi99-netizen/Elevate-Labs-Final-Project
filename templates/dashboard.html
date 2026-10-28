@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Welcome, {{ session.get('user_name', 'User') }}!</h1>
+    <p>Welcome to your AI Text Summarizer dashboard.</p>
+
+    <h2>Your Statistics</h2>
+    <p><strong>Total Summaries Created:</strong> {{ total }}</p>
+
+    <h2>Quick Actions</h2>
+    <p>
+        <a class="btn btn-primary" href="{{ url_for('home') }}">
+            Create New Summary
+        </a>
+    </p>
+
+    <p>
+        <a class="btn btn-primary" href="{{ url_for('history') }}">
+            View Summary History
+        </a>
+    </p>
+
+    <p>
+        <a class="btn btn-primary" href="{{ url_for('documents') }}">
+            View Documents
+        </a>
+    </p>
+
+    <h2>Recent Summaries</h2>
+
+    {% if recent %}
+        {% for item in recent %}
+            <div style="border-bottom: 1px solid #ddd; padding: 15px 0;">
+                <p><strong>Words:</strong> {{ item['word_count'] }}</p>
+                <p>{{ item['summary_text'] }}</p>
+                <small>{{ item['created_at'] }}</small>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You haven't created any summaries yet. Start by summarizing some text!</p>
+    {% endif %}
+</div>
+{% endblock %}
